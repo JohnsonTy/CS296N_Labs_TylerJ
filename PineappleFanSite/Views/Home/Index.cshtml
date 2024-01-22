@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Stories>
+@{
+    ViewBag.Title = "Pineapple Home";
+}
+
+<div class="jumbotron" >
+    <h1>Welcome</h1>
+    <p class="lead">This is a fan site for the amazing Pineapple Tech company! We enjoy great stories! (And fruit of course)</p>
+    <p><a href="http://citstudent.lanecc.net/~johnsont006/CS233JS/FinalProject/PineappleTech/dist/index.html" class="btn btn-primary btn-lg">The "Company" &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4"><br><br><br><br><br>
+        <h2>Filter Cool Stories</h2>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+            <div>
+                <label for="by">Name of submitter:</label>
+                <input type="text" id="by" name="By" value="@ViewBag.CurrentFilter" />
+            </div>
+            <div>
+                <label for="date">Date submitted:</label>
+                <input type="date" id="date" name="Date" value="@ViewBag.CurrentDateFilter" />
+            </div>
+            <input type="submit" value="Filter" />
+        }<br />
+    </div>
+    <div class="col-md-4"><br><br>
+        <h5>Create an<a href="~/Home/ForumPost"> epic story </a>like you see here!<br><br></h5>
+        @if (Model != null)
+        {
+                @foreach (var story in Model)
+            {
+                <p>
+                    Title: @story.Title
+                    <br>
+                    Topic: @story.Topic
+                    <br>
+                    Year: @story.Year
+                    <br>
+                    Story: @story.Text
+                    <br>
+                    By: @story.By
+                    <br>
+                    Date: @story.Date
+                    <br>
+                    Review: @story.Rating
+                </p>
+            }
+        }
+    </div>
+    <div class="col-md-4"><br><br><br><br><br>
+        <h2>Servo Pineapple Alert</h2>
+        <p>Hello there, important message from The Creator: go to the<a href="~/Projects"> Projects </a>page for even more messages!</p><br><br><br><br>
+    </div>
+</div>

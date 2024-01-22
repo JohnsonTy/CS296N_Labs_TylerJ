@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Messages>
+@{
+    ViewBag.Title = "Projects";
+}
+<div style="margin: 25px; padding: 10px;">
+    <h2>Some Other INCREDIBLE Projects by The Creator</h2>
+    <br>
+    <a href="~/Home/ForumPost">The ability for YOU to CONSTRUCT your OWN PROJECTS on the front page! (STORIES! WOW!)</a><br><br>
+    <a href="http://pineapplefansite2023.azurewebsites.net">The infamous HammerTech, created by none other than yours truly!</a>
+    <br><br>
+    <p> And of course some messages right from our super reliable Pineapple Servers (provided by HammerTech)</p>
+    @if (Model != null)
+    {
+        foreach (var message in Model)
+        {
+            <p>
+                Title: @message.Title.Name
+                <br>
+                By: @message.By.Name
+                <br>
+                Message: @message.Text
+                <br>
+                Topic: @message.Topic.Name
+                <br>
+                Date Submitted: @message.Date
+            </p>
+        }
+    }
+</div>

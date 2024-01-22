@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Stories>
+@{
+    ViewBag.Title = "FanSites";
+}
+
+<div style="margin: 25px; padding: 10px;">
+    <h2>Other "Fan" Sites to Look Into</h2>
+    <br>
+    <p>
+        For everything Warhammer, head to Warhammer Community (<a href="http://warhammer-community.com">warhammer-community.com</a>).
+        Guardians, join the Destiny subreddit (<a href="http://reddit.com/r/DestinyTheGame">reddit.com/r/DestinyTheGame</a>) for the best intel.
+        Nintendo fans can't miss Nintendo Life (<a href="http://nintendolife.com">nintendolife.com</a>), while PlayStation aficionados can go to PlayStation Blog (<a href="http://blog.playstation.com">blog.playstation.com</a>).
+        And for Xbox, check out Xbox Wire (<a href="http://news.xbox.com">news.xbox.com</a>).
+    </p>
+    <p><a href="http://pineapplefansite2023.azurewebsites.net" class="btn btn-primary btn-lg">Hmm... I wonder what HammerTech is about</a> The games from those communities have much better stories than here: </p>
+    @if (Model != null)
+    {
+        foreach (var story in Model)
+        {
+            <p>
+                Title: @story.Title
+                <br>
+                Topic: @story.Topic
+                <br>
+                Year: @story.Year
+                <br>
+                Story: @story.Text
+                <br>
+                By: @story.By
+                <br>
+                Date: @story.Date
+                <br>
+                Review: @story.Rating
+            </p>
+        }
+    }
+</div>

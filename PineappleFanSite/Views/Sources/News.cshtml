@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Stories>
+@{
+    ViewBag.Title = "News";
+}
+
+<div style="margin: 25px; padding: 10px;">
+    <h2>News Concerning the Fan Site</h2>
+    <br>
+    <p>
+        Attention! The Battle Brothers are calling for reinforcements in a battle like no other. 
+        The grimdark collides with a fruity cosmic invasion, and the sting of pineapple drifts through the interstellar battleground. 
+        Join forces to defend the galaxy against pineapple-wielding alien foes.
+    </p>
+    @if (Model != null)
+    {
+        foreach (var story in Model)
+        {
+            <p>
+                Title: @story.Title
+                <br>
+                Topic: @story.Topic
+                <br>
+                Year: @story.Year
+                <br>
+                Story: @story.Text
+                <br>
+                By: @story.By
+                <br>
+                Date: @story.Date
+                <br>
+                Review: @story.Rating
+            </p>
+        }
+    }
+</div>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Pineapple Sources";
+}
+
+<div style="margin: 25px; padding: 10px;">
+    <h2>Sources For this Cool Fan Site</h2>
+    <br>
+    <h4 style="font-weight: bold">HILARIOUS FAKE SITES AND STORIES</h4>
+    <p>Incredible facts at PineappleFacts (pineapplefacts.net) and 
+    strange recipes at PineappleRecipes (pineapplerecipes.com). Also PineappleTrends is neat (pinappletrends.org)</p>
+    @foreach (var story in Model)
+        {
+            <p>
+                Title: @story.Title
+                <br>
+                Topic: @story.Topic
+                <br>
+                Year: @story.Year
+                <br>
+                Story: @story.Text
+                <br>
+                By: @story.By
+                <br>
+                Date: @story.Date
+                <br>
+                Review: @story.Rating
+            </p>
+        }
+    <h5>But for real, the good old <a href="http://citstudent.lanecc.net/~johnsont006/CS233JS/FinalProject/PineappleTech/dist/index.html">PineappleTech</a>, hosted by CIT student. You can see a big difference in design as The Creator gained more knowledge. </h5>
+</div>

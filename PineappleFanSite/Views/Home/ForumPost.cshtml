@@ -1,0 +1,32 @@
+﻿@model Stories
+@{
+    ViewBag.Title = "Story Posts";
+}
+<br>
+
+<h2>Forum Post - Write an Epic Story about Pineapple!</h2>
+<form method="Post" class="container" style="margin:16px; padding:8px;">
+    <div class="row col-10 p-2">
+        <label for="title" class="col-md-2">Title</label>
+        <input id="title" name="Title" class="col-md-8">
+    </div>
+    <div class="row col-10 p-2">
+        <label for="topic" class="col-md-2">(Pineapple) Topic</label>
+        <input id="topic" name="Topic" class="col-md-8">
+    </div>
+    <div class="row col-10 p-2">
+        <label for="year" class="col-md-2">Year</label>
+        <input id="year" name="Year" class="col-md-8">
+    </div>
+    <div class="row col-10 p-2">
+        <label for="message" class="col-md-2">Story</label>
+        <textarea id="message" name="Text" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="row col-10 p-2">
+        <label for="by" class="col-md-2">By</label>
+        <input id="by" name="By" class="col-md-8">
+    </div>
+    <div class="col-md-10 offset-md-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="margin: 25px; padding: 10px;">
+    <h2>Quiz (Use Punctuation! And Capitals!)</h2><br />
+
+    <form method="post">
+        @Model.Questions[1]<br>
+        <input name="answer1" value="@Model.UserAnswers[1]"> @( (Model.UserAnswers[1] == "") ? "" : Model.Results[1] ? "Correct" : "Incorrect")<br>
+        @Model.Questions[2]<br>
+        <input name="answer2" value="@Model.UserAnswers[2]"> @( (Model.UserAnswers[2] == "") ? "" : Model.Results[2] ? "Correct" : "Incorrect")<br>
+        @Model.Questions[3]<br>
+        <input name="answer3" value="@Model.UserAnswers[3]"> @( (Model.UserAnswers[3] == "") ? "" : Model.Results[3] ? "Correct" : "Incorrect")<br>
+        <br><input type="submit">
+    </form>
+</div>
