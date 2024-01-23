@@ -1,4 +1,5 @@
-﻿using PineappleFanSite.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using PineappleFanSite.Models;
 using System;
 using System.Linq;
 
@@ -7,11 +8,36 @@ namespace PineappleFanSite.Data
     public class SeedData
     {
         //public static List<Stories> Stories {  get; set; }
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public static void Seed(AppDbContext context)
+        public SeedData(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        public async Task Seed(AppDbContext context)
         {
             if (!context.Stories.Any())  // prevent dupes from being added
             {
+                var user = new IdentityUser { UserName = "username", Email = "email@example.com" };
+                var result = await _userManager.CreateAsync(user, "password");
+
+                if (result.Succeeded)
+                {
+                    // User created good
+                    Console.WriteLine("User created!");
+                }
+                else
+                {
+                    // Handlin' errors
+                    foreach (var error in result.Errors)
+                    {
+                        Console.WriteLine(error.Description);
+                    }
+                }
+
+                context.SaveChanges();
+
                 Random random = new Random();
                 Stories story = new Stories
                 {
@@ -53,7 +79,7 @@ namespace PineappleFanSite.Data
                 };
                 context.Stories.Add(story);
 
-                context.SaveChanges(); // stores all the stories
+                await context.SaveChangesAsync();  // stores all the stories
             }
         }
     }

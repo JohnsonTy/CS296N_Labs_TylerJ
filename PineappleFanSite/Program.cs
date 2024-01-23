@@ -1,5 +1,6 @@
 using PineappleFanSite.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,10 @@ var connectionString =
 //builder.Services.AddScoped<IRegistryRepository, RegistryRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// Adding identity services
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddTransient<IRegistryRepository, RegistryRepository>();
 
@@ -39,14 +44,24 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    SeedData.Seed(dbContext);
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var seedData = new SeedData(userManager);
+    await seedData.Seed(dbContext);
 }
+
 void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
 {
     if (env.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
-        SeedData.Seed(context);
+        var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+        using (var scope = scopeFactory.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var seedData = new SeedData(userManager);
+            seedData.Seed(dbContext).Wait();
+        }
     }
 }
 
