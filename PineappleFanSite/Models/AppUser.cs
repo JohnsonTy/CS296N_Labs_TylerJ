@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PineappleFanSite.Models
+namespace Microsoft.AspNetCore.Identity.UI.Services
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
         public string Name { get; set; }
         public int AppUserId { get; set; }
