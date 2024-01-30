@@ -1,0 +1,22 @@
+﻿@model Register
+@{
+    ViewBag.Title = "Login";
+}
+
+<div style="margin: 25px; padding: 10px;">
+    <h2>Login BROTHER!</h2><br />
+    <form asp-action="Login" asp-controller="Register" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Login!</button>
+    </form><br />Thank you for giving us your information! We love profiting off it... Also buy HELLDIVERS 2!!<br />
+</div>
