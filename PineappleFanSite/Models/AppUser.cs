@@ -8,8 +8,6 @@ namespace Microsoft.AspNetCore.Identity.UI.Services
     public class AppUser : IdentityUser
     {
         public string Name { get; set; }
-        public int AppUserId { get; set; }
-
         //public static implicit operator AppUser(string v)
         //{
             //throw new NotImplementedException();

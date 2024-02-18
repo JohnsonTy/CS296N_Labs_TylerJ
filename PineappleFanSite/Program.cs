@@ -20,6 +20,20 @@ builder.Services.AddTransient<IRegistryRepository, RegistryRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+var userManager = builder.Services.GetRequiredService<UserManager<IdentityUser>>();
+var roleManager = builder.Services.GetRequiredService<RoleManager<IdentityRole>>();
+
+var adminRole = new IdentityRole("Admin");
+await roleManager.CreateAsync(adminRole);
+
+var adminUser = new IdentityUser
+{
+    UserName = "admin@example.com",
+    Email = "admin@example.com"
+};
+await userManager.CreateAsync(adminUser, "Password123!");
+await userManager.AddToRoleAsync(adminUser, "Admin");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
