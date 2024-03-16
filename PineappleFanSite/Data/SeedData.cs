@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity.UI.Services;
+using PineappleFanSite.Data;
 using PineappleFanSite.Models;
 using System;
 using System.Linq;
@@ -8,34 +10,26 @@ namespace PineappleFanSite.Data
     public class SeedData
     {
         //public static List<Stories> Stories {  get; set; }
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public SeedData(UserManager<IdentityUser> userManager)
-        {
-            _userManager = userManager;
-        }
-
-        public async Task Seed(AppDbContext context)
-        {
-            if (!context.Stories.Any())  // prevent dupes from being added
+        public static void Seed(AppDbContext context, IServiceProvider provider) { 
+        if (!context.Stories.Any())  // this is to prevent adding duplicate data
             {
-                var user = new IdentityUser { UserName = "username", Email = "email@example.com" };
-                var result = await _userManager.CreateAsync(user, "password");
+                var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                if (result.Succeeded)
+                
+                const string ROLE = "Admin";
+                const string SECRET_PASSWORD = "!DRG_321";
+
+                // if role doesn't exist, create it
+                bool isSuccess = true;
+                if (roleManager.FindByNameAsync(ROLE).Result == null)
                 {
-                    // User created good
-                    Console.WriteLine("User created!");
-                }
-                else
-                {
-                    // Handlin' errors
-                    foreach (var error in result.Errors)
-                    {
-                        Console.WriteLine(error.Description);
-                    }
+                    isSuccess = roleManager.CreateAsync(new IdentityRole(ROLE)).Result.Succeeded;
                 }
 
+
+                var user1 = new AppUser { Name = "Tyler Johnson", UserName = "Tech7yl3r"};
+                var user2 = new AppUser { Name = "Ryan Polter", UserName = "RPgamer" };
                 context.SaveChanges();
 
                 Random random = new Random();
@@ -79,7 +73,7 @@ namespace PineappleFanSite.Data
                 };
                 context.Stories.Add(story);
 
-                await context.SaveChangesAsync();  // stores all the stories
+                context.SaveChangesAsync();  // stores all the stories
             }
         }
     }

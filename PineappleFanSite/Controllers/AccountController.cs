@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using PineappleFanSite.Models;
 using System.Threading.Tasks;
 
 namespace PineappleFanSite.Controllers
 {
-    public class RegisterController : Controller
+    public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public RegisterController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -27,11 +28,11 @@ namespace PineappleFanSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(user, isPersistent: true);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -48,11 +49,19 @@ namespace PineappleFanSite.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //public IActionResult Login(string returnURL = " ")
+        //{
+            //var model = new Register { ReturnUrl = returnURL };
+            //return View(model);
+        //}
+
+        [HttpGet]
         public IActionResult Login()
         {
+            //var model = new Register;
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(Register model)
         {
@@ -61,6 +70,9 @@ namespace PineappleFanSite.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
                 if (result.Succeeded)
                 {
+                    //if(!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl)) {
+                        //return RedirectToAction("Index", "Home");
+                    //}
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

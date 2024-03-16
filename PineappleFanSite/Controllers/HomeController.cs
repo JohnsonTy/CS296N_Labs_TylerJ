@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PineappleFanSite.Data;
@@ -68,6 +69,7 @@ namespace PineappleFanSite.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult ForumPost()
         {
             return View();

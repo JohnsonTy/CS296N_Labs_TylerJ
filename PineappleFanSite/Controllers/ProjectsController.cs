@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PineappleFanSite.Data;
 using PineappleFanSite.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PineappleFanSite.Controllers
 {
@@ -14,25 +15,25 @@ namespace PineappleFanSite.Controllers
         AppDbContext context;
 
         readonly IRegistryRepository repository;
-        // TODO: Do something interesting with the messageId
+        UserManager<AppUser> userManager;
         public ProjectsController(AppDbContext c, IRegistryRepository r)
         {
             context = c;
             repository = r;
         }
-        public ActionResult Index(int Id) {
-            var messages = context.Messages
-                .Include(c => c.Title)
-                .Include(c => c.Topic)
-                .Include(c => c.By)
-                .ToList();
-            return View(messages);
-        }
-        // GET: Projects
-        //public ActionResult Index()
-        //{
-           // return View();
+        //public ICollection<Stories> Index(int Id) {
+            //var stories = context.Stories
+                //.Include(c => c.Year)
+                //.Include(c => c.Topic)
+                //.Include(c => c.By)
+                //.ToList();
+            //return (ICollection<Stories>)View(stories);
         //}
+        // GET: Projects
+        public ActionResult Index()
+        {
+           return View();
+        }
 
         public ActionResult ForumPost()
         {
