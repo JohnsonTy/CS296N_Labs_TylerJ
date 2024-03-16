@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.UI.Services;
+//using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PineappleFanSite.Models;
@@ -11,15 +11,15 @@ namespace PineappleFanSite.Controllers
         [Authorize(Roles = "Admin")]
         public class CustomUserController : Controller
         {
-            private readonly UserManager<IdentityUser> _userManager;
+            private readonly UserManager<AppUser> _userManager;
             private readonly RoleManager<IdentityRole> _roleManager;
 
-            public CustomUserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            public CustomUserController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
             {
                 _userManager = userManager;
                 _roleManager = roleManager;
             }
-
+            [HttpGet]
             public async Task<IActionResult> Index()
             {
                 var users = new List<IdentityUser>();
@@ -29,13 +29,13 @@ namespace PineappleFanSite.Controllers
                     users.Add(user);
                 }
 
-                var model = new User
+                var model = new Login
                 {
-                    Users = users,
+                    Users = (IEnumerable<AppUser>)users,
                     Roles = _roleManager.Roles
                 };
 
-                return View(model);
+                return View("../Login");
             }
 
             [HttpGet]
@@ -102,7 +102,7 @@ namespace PineappleFanSite.Controllers
             [HttpPost]
             public async Task<IActionResult> RemoveFromAdmin(string id)
             {
-                IdentityUser user = await _userManager.FindByIdAsync(id);
+                AppUser user = await _userManager.FindByIdAsync(id);
                 var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
                 if (result.Succeeded) { }
                 return RedirectToAction("Index");

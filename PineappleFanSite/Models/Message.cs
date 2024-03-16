@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Services;
+//using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace PineappleFanSite.Models
 {
@@ -14,12 +14,17 @@ namespace PineappleFanSite.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int MessageId { get; set; }
+        public string SenderId { get; set; }
+        public AppUser Sender { get; set; }
+        public string? RecipientId { get; set; }
         public AppUser Title { get; set; }
         public AppUser Topic { get; set; }
         public int Year { get; set; }
         public string Text { get; set; }
         public AppUser By { get; set; }
         public DateTime Date { get; set; }
+        public ICollection<Reply>? Replies { get; set; }
+
     }
 }

@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Pineapple Fan Site</title>
+    <title>@ViewData["Title"] - Pineapple Fan Site</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .navbar-nav > li {
@@ -27,15 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
-                <li class="nav-item">@Html.ActionLink("Register", "Index", "Register")</li>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Register")</li>
-                }
-                else
-                {
-                    <li class="nav-item">@Html.ActionLink("Login", "Login", "Register")</li>
-                }
+                <li class="nav-item">@Html.ActionLink("Post", "ForumPost", "Home")</li>
                 <li class="nav-item">@Html.ActionLink("About", "About", "Home")</li>
                 <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 <li class="nav-item">@Html.ActionLink("History", "History", "Home")</li>
@@ -44,6 +38,41 @@
                 <li class="nav-item">@Html.ActionLink("Sources", "Index", "Sources")</li>
                 <li class="nav-item">@Html.ActionLink("News", "News", "Sources")</li>
                 <li class="nav-item">@Html.ActionLink("Projects", "Index", "Projects")</li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Index">
+                            <span class="fas fa-cog"></span>&nbsp;Admin
+                        </a>
+                    </li>
+                }
+            </ul>
+            <ul class="navbar-nav flex-grow-1">
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <form method="post" asp-action="Logout" asp-controller="Account">
+                            <input type="submit" value="Logout" class="btn btn-outline-light" />
+                            <span class="text-light">@User.Identity.Name</span>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    if (User.Identity.Name != null)
+                    {
+                        // Use User.Identity.Name safely
+                        <p> User.Identity.Name;</p>
+                       
+                    }
+                    // Get current action
+                    var action = ViewContext.RouteData.Values["action"]?.ToString();
+                    // anonymous user - Register link and Log In button
+                    <li class="nav-item">
+                        @Html.ActionLink("Register", "Index", "Account")</li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Login", "Login", "Account")</li>
+                }
             </ul>
         </div>
     </nav>
